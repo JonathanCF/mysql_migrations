@@ -1,4 +1,4 @@
-const path = require('path')
+const axios = require('axios')
 let pessoas = []
 let alerta = false
 
@@ -29,6 +29,25 @@ class PessoasController {
     {
         pessoas.splice(req.body)
         res.redirect('/')
+    }
+    static async buscarCep(req, res)
+    {
+        let cep = '69065030'
+            
+        let rota = process.env.API_BASE+''+cep+'/json/'
+
+        let endereco = await axios.get(rota)
+        .then(function (response) {
+          console.log(response.data);
+          return response.data
+        })
+        .catch(function (error) {
+          console.error(error);
+          return error
+        })
+        res.render('endereco', {
+            endereco: endereco
+        })
     }
    
 }

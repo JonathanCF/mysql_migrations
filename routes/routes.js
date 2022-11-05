@@ -10,4 +10,7 @@ routes.post('/cadastro', PessoasController.salvar)
 
 routes.get('/excluir', PessoasController.excluir)
 
+routes.get('/buscarCep', PessoasController.buscarCep)
+
+
 module.exports = routes
