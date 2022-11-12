@@ -22,7 +22,7 @@ module.exports = {
       },
       email: {
         type: Sequelize.STRING(150),
-        allowNull: false
+        allowNull: true
       },
       data_nascimento: {
         type: Sequelize.DATEONLY,

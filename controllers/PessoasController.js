@@ -1,20 +1,25 @@
 const axios = require('axios')
+const { Pessoa } = require('../models/')
 let pessoas = []
 let alerta = false
 
 class PessoasController {
-    static index(req,res)
+    static async index(req,res)
     {
-        if(pessoas.length > 0){
-            alerta = false
-        }else{
-            alerta = true
-        }
+    const pessoas = await Pessoa.findAll({raw:true})
+    console.log(pessoas)
+        //if(pessoas.length > 0){
+            //alerta = false
+        //}else{
+           // alerta = true
+       // }
+        //res.render('index', {
+           // pessoas: pessoas,
+           // alerta: alerta
+        //})
         res.render('index', {
-            pessoas: pessoas,
-            alerta: alerta
+            pessoas: pessoas
         })
-
     }
     static cadastro(req, res)
     {
@@ -48,6 +53,15 @@ class PessoasController {
         res.render('endereco', {
             endereco: endereco
         })
+    }
+    static async create(req, res)
+    {
+        const pessoa = Pessoa.create({
+            nome: 'Paula',
+            data_nascimento: '04/03/1991',
+            email: 'paula@gmail.com'
+        })
+        res.redirect('/')
     }
    
 }

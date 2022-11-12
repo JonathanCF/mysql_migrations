@@ -12,5 +12,7 @@ routes.get('/excluir', PessoasController.excluir)
 
 routes.get('/buscarCep', PessoasController.buscarCep)
 
+routes.get('/create', PessoasController.create)
+
 
 module.exports = routes
