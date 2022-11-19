@@ -15,18 +15,31 @@
 <table class="table">
   <thead>
     <tr>
+      <th scope="col">Ação</th>
+      <th scope="col">ID</th>
       <th scope="col">Nome</th>
+      <th scope="col">email</th>
       <th scope="col">Data Nascimento</th>
       <th scope="col">Telefone</th>
-      <th scope="col">CEP</th>
-      <th scope="col">AÇÃO</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+      
     </tr>
   </thead>
   <tbody>
     {{# each pessoas}}
     <tr>
+      <td><a class="btn btn-primary" btn-sm href="/show/{{this.id}}">Ver</a></td>
+      <td>{{ this.id}}</td>
       <td>{{ upperCase this.nome}}</td>
+      <td>{{ this.email}}</td>
       <td>{{ formataData this.data_nascimento}}</td>
+       {{# each telefones}}
+         <td>{{ this.numero}}</td>
+       {{/ each}}  
+      <td><a class="btn btn-success" btn-sm href="/atualizar/{{this.id}}">EDITAR</a></td>
+      <td><a class="btn btn-danger" btn-sm href="/deletar/{{this.id}}">EXCLUIR</a></td>
+      
     </tr>
     {{/ each}}
   </tbody>

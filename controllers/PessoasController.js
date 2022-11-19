@@ -1,22 +1,12 @@
 const axios = require('axios')
-const { Pessoa } = require('../models/')
+const { Pessoa, Telefone } = require('../models/')
 let pessoas = []
 let alerta = false
 
 class PessoasController {
     static async index(req,res)
     {
-    const pessoas = await Pessoa.findAll({raw:true})
-    console.log(pessoas)
-        //if(pessoas.length > 0){
-            //alerta = false
-        //}else{
-           // alerta = true
-       // }
-        //res.render('index', {
-           // pessoas: pessoas,
-           // alerta: alerta
-        //})
+    const pessoas = await Pessoa.findAll({include: 'telefones'})
         res.render('index', {
             pessoas: pessoas
         })
@@ -25,15 +15,61 @@ class PessoasController {
     {
         res.render('cadastro')
     }
-    static salvar(req, res)
+
+    static async show(req, res)
     {
-        pessoas.push(req.body)
-        res.redirect('/cadastro')
+        var id = req.params.id
+        const pessoa = await Pessoa.findByPk(id)
+
+        console.log(pessoa)
     }
-    static excluir(req, res)
+
+    static async update(req, res)
     {
-        pessoas.splice(req.body)
+        let id = req.params.id
+        //let nome = req.body.nome
+        //let email = req.body.email
+        //let data_nascimento = req.body.data_nascimento
+        
+        const pessoa = await Pessoa.findByPk(id)
+        pessoa.nome = "teste"
+        //pessoa.email = email
+        //pessoa.data_nascimento = data_nascimento
+        pessoa.save();
+        console.log(pessoa)
         res.redirect('/')
+    }
+
+    static async salvar(req, res)
+    {
+        try{
+            const pessoa = await Pessoa.create({
+                nome: req.body.nome,
+                email: req.body.email,
+                data_nascimento: req.body.data_nascimento,
+            })
+                await Telefone.create({
+                    numero: req.body.numero,
+                    pessoaId: pessoa.id
+
+            })
+            res.redirect('/')
+
+            }catch(error){
+                console.log(error.message)
+                res.redirect('/')
+            }
+            
+        }
+    static async deletar(req, res)
+    {
+        try{
+            const pessoa = await Pessoa.findByPk(req.params.id)
+            pessoa.destroy()
+            res.redirect('/')
+        }catch(error){
+            console.log(error.message)
+        }
     }
     static async buscarCep(req, res)
     {
@@ -56,10 +92,13 @@ class PessoasController {
     }
     static async create(req, res)
     {
-        const pessoa = Pessoa.create({
+
+        const pessoa = await Pessoa.create({
             nome: 'Paula',
             data_nascimento: '04/03/1991',
             email: 'paula@gmail.com'
+        
+       
         })
         res.redirect('/')
     }

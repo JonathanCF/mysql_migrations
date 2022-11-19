@@ -6,8 +6,13 @@ require('dotenv').config()
 
 
 app.engine('handlebars', engine({
-    helpers: helpers
+    helpers: helpers,
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true,
+        allowProtoMethodsByDefault: true,
+    },
 }))
+
 app.set('view engine', 'handlebars')
 
 const routes = require('./routes/routes')
@@ -17,5 +22,5 @@ app.use(express.urlencoded({extended:true}))
 app.use('/', routes)
 
 app.listen(process.env.PORTA, ()=>{
-    console.log('Server Rodando na porta'+ process.env.PORTA)
+    console.log('Server Rodando na porta http://localhost:'+ process.env.PORTA)
 })

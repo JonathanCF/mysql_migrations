@@ -10,14 +10,23 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.hasMany(models.Telefone, {
+        as: 'telefones'
+      })
     }
   }
   Pessoa.init({
     nome: DataTypes.STRING,
     email: DataTypes.STRING,
-    data_nascimento: DataTypes.DATEONLY
-  }, {
+    data_nascimento: {
+      type: DataTypes.DATEONLY,
+      get() {
+        const rawValue = this.getDataValue('data_nascimento')
+        return rawValue ? rawValue.split('-').reverse().join('/') : null
+      },
+  }
+},
+  {
     sequelize,
     modelName: 'Pessoa',
     tableName: 'pessoas'

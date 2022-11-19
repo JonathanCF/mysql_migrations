@@ -8,11 +8,15 @@ routes.get('/cadastro', PessoasController.cadastro)
 
 routes.post('/cadastro', PessoasController.salvar)
 
-routes.get('/excluir', PessoasController.excluir)
+routes.get('/deletar/:id', PessoasController.deletar)
 
 routes.get('/buscarCep', PessoasController.buscarCep)
 
 routes.get('/create', PessoasController.create)
+
+routes.get('/show/:id', PessoasController.show)
+
+routes.get('/atualizar/:id', PessoasController.update)
 
 
 module.exports = routes
